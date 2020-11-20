@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Mission to Mars</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      />
+  </head>
+  <body style="background-image: url(https://cdn.motor1.com/images/mgl/3XXxY/s1/tesla-life-on-mars-rendering.jpg);
+    background-repeat: pg-repeat;
+    background-attachment: fixed;">
+    
+      
+    <div class="container-fluid">
+      <!-- Add Jumbotron to Header -->
+      <div class="jumbotron text-center" style='background: rgb(236, 182, 95)')>
+        <h1><strong><em>Mission to Mars</strong></h1></em>
+        <!-- Add a button to activate scraping script -->
+        <p><a class="btn btn-info btn-lg active" href="/scrape" role="button">Refresh MARS</a></p>
+      </div>
+
+      <!-- Add section for Mars News -->
+      <div class="row" id="mars-news">
+        <div class="col-md-12">
+            <div class="media">
+            <div class="media-body">
+              <h2><strong>MARS Today</h2></strong>
+              <h4 class="media-heading">{{ mars.news_title }}</h4>
+              <p>{{ mars.news_paragraph }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section for Featured Image and Facts table -->
+      <div class="row" id="mars-featured-image">
+        <div class="col-md-8">
+          <h2><strong>MARS Instagram</h2></strong>
+
+          <!-- if images is False/None/non-existent, then default to error message -->
+          <img
+            src="{{mars.featured_image | default('static/images/error.png', true) }}"
+            class="img-responsive"
+            alt="Responsive image"
+          />
+        </div>
+      
+
+        <div class="col-md-4">
+          <!-- Mars Facts -->
+          <div class="row" id="mars-facts">
+            <h2><strong>MARS Facts</h2></strong>
+            <div class="table table-striped">
+            {{ mars.facts | safe }}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <!-- Mars Weather -->
+          <div class="text-center" id="mars-weather">
+          <h2><strong>MARS Weather</h2></strong></div>
+          <div class="table table-striped">
+            <table class="table table-striped" id="weather_observation" style="width:100%;">
+              <thead>
+               <tr>
+                <th colspan="2" scope="col">
+                 Time
+                </th>
+                <th colspan="3" id="temperature_lbl" scope="col">
+                 Air Temperature (
+                 <span class="lbl_fahrenheit">
+                  °F
+                 </span>
+                 <span class="slash">
+                  |
+                 </span>
+                 <span class="lbl_celsius fadeBlack">
+                  °C
+                 </span>
+                 )
+                </th>
+                <th colspan="4" id="windspeed_lbl" scope="col">
+                 Wind Speed (
+                 <span class="lbl_mph">
+                  mph
+                 </span>
+                 <span class="slash">
+                  |
+                 </span>
+                 <span class="lbl_mps fadeBlack">
+                  m/s
+                 </span>
+                 )
+                </th>
+                <th colspan="3" id="pressure_lbl" scope="col">
+                 Pressure (Pa)
+                </th>
+               </tr>
+              </thead>
+              <tbody>
+               <tr id="weather_top">
+                <th class="sol" scope="row">
+                 Date
+                </th>
+                <th class="sol" scope="row">
+                 Sol
+                </th>
+                <td class="temperature max">
+                 Max.
+                </td>
+                <td class="temperature avg">
+                 Avg.
+                </td>
+                <td class="temperature min">
+                 Min.
+                </td>
+                <td class="windspeed max">
+                 Max.
+                </td>
+                <td class="windspeed avg">
+                 Avg.
+                </td>
+                <td class="windspeed min">
+                 Min.
+                </td>
+                <td class="windspeed direction">
+                 Direction
+                 <br/>
+                 <span style="font-size:x-small">
+                  (most common)
+                 </span>
+                </td>
+                <td class="pressure max">
+                 Max.
+                </td>
+                <td class="pressure avg">
+                 Avg.
+                </td>
+                <td class="pressure min">
+                 Min.
+                </td>
+               </tr>
+               <tr>
+                <th class="sol" scope="row">
+                 Nov. 18, 2020
+                </th>
+                <th class="sol" scope="row">
+                 704
+                </th>
+                <td class="temperature max">
+                 <span class="fahrenheit">
+                  <nobr>
+                   17.2° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -8.2° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="temperature avg">
+                 <span class="fahrenheit">
+                  <nobr>
+                   -81° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -62.8° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="temperature min">
+                 <span class="fahrenheit">
+                  <nobr>
+                   -142.7° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -97.1° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="windspeed max">
+                 <span class="mph">
+                  31.6
+                 </span>
+                 <span class="mps" style="display:none">
+                  14.1
+                 </span>
+                </td>
+                <td class="windspeed avg">
+                 <span class="mph">
+                  9.9
+                 </span>
+                 <span class="mps" style="display:none">
+                  4.4
+                 </span>
+                </td>
+                <td class="windspeed min">
+                 <span class="mph">
+                  0.4
+                 </span>
+                 <span class="mps" style="display:none">
+                  0.2
+                 </span>
+                </td>
+                <td class="windspeed point">
+                 W
+                </td>
+                <td class="pressure max">
+                 766.3
+                </td>
+                <td class="pressure avg">
+                 735.1
+                </td>
+                <td class="pressure min">
+                 693.9
+                </td>
+               </tr>
+               <tr>
+                <th class="sol" scope="row">
+                 Nov. 17, 2020
+                </th>
+                <th class="sol" scope="row">
+                 703
+                </th>
+                <td class="temperature max">
+                 <span class="fahrenheit">
+                  <nobr>
+                   15.9° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -8.9° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="temperature avg">
+                 <span class="fahrenheit">
+                  <nobr>
+                   -80° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -62.2° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="temperature min">
+                 <span class="fahrenheit">
+                  <nobr>
+                   -140.8° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -96° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="windspeed max">
+                 <span class="mph">
+                  47.4
+                 </span>
+                 <span class="mps" style="display:none">
+                  21.2
+                 </span>
+                </td>
+                <td class="windspeed avg">
+                 <span class="mph">
+                  13
+                 </span>
+                 <span class="mps" style="display:none">
+                  5.8
+                 </span>
+                </td>
+                <td class="windspeed min">
+                 <span class="mph">
+                  0.5
+                 </span>
+                 <span class="mps" style="display:none">
+                  0.2
+                 </span>
+                </td>
+                <td class="windspeed point">
+                 W
+                </td>
+                <td class="pressure max">
+                 768
+                </td>
+                <td class="pressure avg">
+                 737.9
+                </td>
+                <td class="pressure min">
+                 698.8
+                </td>
+               </tr>
+               <tr>
+                <th class="sol" scope="row">
+                 Nov. 15, 2020
+                </th>
+                <th class="sol" scope="row">
+                 701
+                </th>
+                <td class="temperature max">
+                 <span class="fahrenheit">
+                  <nobr>
+                   -° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="temperature avg">
+                 <span class="fahrenheit">
+                  <nobr>
+                   -° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="temperature min">
+                 <span class="fahrenheit">
+                  <nobr>
+                   -° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="windspeed max">
+                 <span class="mph">
+                  -
+                 </span>
+                 <span class="mps" style="display:none">
+                  -
+                 </span>
+                </td>
+                <td class="windspeed avg">
+                 <span class="mph">
+                  -
+                 </span>
+                 <span class="mps" style="display:none">
+                  -
+                 </span>
+                </td>
+                <td class="windspeed min">
+                 <span class="mph">
+                  -
+                 </span>
+                 <span class="mps" style="display:none">
+                  -
+                 </span>
+                </td>
+                <td class="windspeed point">
+                 n/a
+                </td>
+                <td class="pressure max">
+                 755.2
+                </td>
+                <td class="pressure avg">
+                 730.3
+                </td>
+                <td class="pressure min">
+                 704.7
+                </td>
+               </tr>
+               <tr>
+                <th class="sol" scope="row">
+                 Nov. 14, 2020
+                </th>
+                <th class="sol" scope="row">
+                 700
+                </th>
+                <td class="temperature max">
+                 <span class="fahrenheit">
+                  <nobr>
+                   8.2° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -13.2° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="temperature avg">
+                 <span class="fahrenheit">
+                  <nobr>
+                   -81.1° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -62.9° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="temperature min">
+                 <span class="fahrenheit">
+                  <nobr>
+                   -142° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -96.6° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="windspeed max">
+                 <span class="mph">
+                  46.7
+                 </span>
+                 <span class="mps" style="display:none">
+                  20.9
+                 </span>
+                </td>
+                <td class="windspeed avg">
+                 <span class="mph">
+                  12.8
+                 </span>
+                 <span class="mps" style="display:none">
+                  5.7
+                 </span>
+                </td>
+                <td class="windspeed min">
+                 <span class="mph">
+                  0.5
+                 </span>
+                 <span class="mps" style="display:none">
+                  0.2
+                 </span>
+                </td>
+                <td class="windspeed point">
+                 WNW
+                </td>
+                <td class="pressure max">
+                 760.9
+                </td>
+                <td class="pressure avg">
+                 735.9
+                </td>
+                <td class="pressure min">
+                 708.7
+                </td>
+               </tr>
+               <tr>
+                <th class="sol" scope="row">
+                 Nov. 13, 2020
+                </th>
+                <th class="sol" scope="row">
+                 699
+                </th>
+                <td class="temperature max">
+                 <span class="fahrenheit">
+                  <nobr>
+                   14.1° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -9.9° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="temperature avg">
+                 <span class="fahrenheit">
+                  <nobr>
+                   -80.8° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -62.7° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="temperature min">
+                 <span class="fahrenheit">
+                  <nobr>
+                   -144.1° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -97.8° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="windspeed max">
+                 <span class="mph">
+                  31.8
+                 </span>
+                 <span class="mps" style="display:none">
+                  14.2
+                 </span>
+                </td>
+                <td class="windspeed avg">
+                 <span class="mph">
+                  9.5
+                 </span>
+                 <span class="mps" style="display:none">
+                  4.2
+                 </span>
+                </td>
+                <td class="windspeed min">
+                 <span class="mph">
+                  0.3
+                 </span>
+                 <span class="mps" style="display:none">
+                  0.1
+                 </span>
+                </td>
+                <td class="windspeed point">
+                 WNW
+                </td>
+                <td class="pressure max">
+                 753.6
+                </td>
+                <td class="pressure avg">
+                 731.8
+                </td>
+                <td class="pressure min">
+                 705.2
+                </td>
+               </tr>
+               <tr>
+                <th class="sol" scope="row">
+                 Nov. 12, 2020
+                </th>
+                <th class="sol" scope="row">
+                 698
+                </th>
+                <td class="temperature max">
+                 <span class="fahrenheit">
+                  <nobr>
+                   5.8° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -14.6° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="temperature avg">
+                 <span class="fahrenheit">
+                  <nobr>
+                   -93.1° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -69.5° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="temperature min">
+                 <span class="fahrenheit">
+                  <nobr>
+                   -141.5° F
+                  </nobr>
+                 </span>
+                 <span class="celsius" style="display: none;">
+                  <nobr>
+                   -96.4° C
+                  </nobr>
+                 </span>
+                </td>
+                <td class="windspeed max">
+                 <span class="mph">
+                  53
+                 </span>
+                 <span class="mps" style="display:none">
+                  23.7
+                 </span>
+                </td>
+                <td class="windspeed avg">
+                 <span class="mph">
+                  14
+                 </span>
+                 <span class="mps" style="display:none">
+                  6.2
+                 </span>
+                </td>
+                <td class="windspeed min">
+                 <span class="mph">
+                  0.8
+                 </span>
+                 <span class="mps" style="display:none">
+                  0.4
+                 </span>
+                </td>
+                <td class="windspeed point">
+                 W
+                </td>
+                <td class="pressure max">
+                 757.1
+                </td>
+                <td class="pressure avg">
+                 736.8
+                </td>
+                <td class="pressure min">
+                 708.1
+                </td>
+               </tr>
+              </tbody>
+             </table>
+              </div>
+            </div>
+          </div>
+        </div> 
+         
+
+       <!-- Section for Hemisphere Image and Title -->
+       <div class="container-fluid">
+         <div class="row">       
+          <div class="col-md-12">
+           <div class="text-center" id="mars-hemispheres">
+            <h2><strong>MARS Hemispheres</h2></strong>
+
+          <!-- if images is False/None/non-existent, then default to error message -->
+           {% for hemisphere in mars.hemispheres %} <div class="col-md-3">
+                                     
+           <img 
+              src="{{hemisphere.img_url}}"
+              class="mx-auto d-block" style="width: 150px"
+              class="img-responsive"
+              alt="Responsive image"
+           >
+            <strong><h4>{{ hemisphere.title }}</h4></strong>
+            </div>
+            {% endfor %}
+            />
+            </div>
+            </div>
+          </div>
+        
+ 
+
+        
